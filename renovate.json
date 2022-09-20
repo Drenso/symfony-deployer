@@ -1,0 +1,13 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "local>intern/renovate-config"
+  ],
+  "rangeStrategy": "widen",
+  "packageRules": [
+    {
+      "matchPackageNames": ["friendsofphp/php-cs-fixer", "rector/rector"],
+      "rangeStrategy": "pin"
+    }
+  ]
+}

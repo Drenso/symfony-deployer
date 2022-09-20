@@ -1,0 +1,63 @@
+stages:
+  - prepare
+  - cs-fix
+  - lint
+  - deploy
+
+include:
+  # Prepare
+  - project: 'intern/runner-templates'
+    ref: "4.0"
+    file: '/symfony/install-dependencies.yml'
+
+  # CS fix
+  - project: 'intern/runner-templates'
+    ref: "5.3"
+    file: '/php/code-style-fixer.yml'
+
+  # Lint
+  - project: 'intern/runner-templates'
+    ref: "4.0"
+    file: '/php/phan.yml'
+  - project: 'intern/runner-templates'
+    ref: "4.0"
+    file: '/php/composer-require-checker.yml'
+  - project: 'intern/runner-templates'
+    ref: "4.0"
+    file: '/php/composer-unused.yml'
+  - project: 'intern/runner-templates'
+    file: '/deploy/deploy.yml'
+    ref: "4.0"
+
+install-dependencies:
+  before_script:
+    - /bin/true
+  except:
+    - master
+    - tags
+
+composer-require-checker:
+  except:
+    - master
+    - tags
+
+composer-unused:
+  before_script:
+    - curl -JOL https://github.com/composer-unused/composer-unused/releases/download/0.7.7/composer-unused.phar
+  except:
+    - master
+    - tags
+
+php-analysis:
+  except:
+    - master
+    - tags
+
+deploy-staging:
+  only:
+    - master
+    - branches
+
+deploy-production:
+  only:
+    - tags

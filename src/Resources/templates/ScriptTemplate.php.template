@@ -1,0 +1,13 @@
+<?php
+
+namespace {{namespace}};
+
+use Drenso\DeployerBundle\Scripts\DeploymentScript;
+
+class {{scriptName}} extends DeploymentScript
+{
+  public function run(): int
+  {
+    // TODO: Implement run() method.
+  }
+}
