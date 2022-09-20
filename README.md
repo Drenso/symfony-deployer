@@ -2,6 +2,10 @@
 
 This bundle can be used to configure scripts that should be run during your deployment.
 
+# Generate new script
+
+Run `bin/console drenso:deployer:generate`.
+
 # Deployment setup
 
 Just add the following commands to your deployment script, at the required positions:
