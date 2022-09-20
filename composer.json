@@ -34,12 +34,6 @@
     "friendsofphp/php-cs-fixer": "3.8.0",
     "rector/rector": "0.14.2"
   },
-  "replace": {
-    "symfony/polyfill-php72": "*",
-    "symfony/polyfill-php73": "*",
-    "symfony/polyfill-php74": "*",
-    "symfony/polyfill-php80": "*"
-  },
   "autoload": {
     "psr-4": {
       "Drenso\\DeployerBundle\\": "src"
