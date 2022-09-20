@@ -27,7 +27,9 @@
     "symfony/config": "^5.4|^6.0",
     "symfony/dependency-injection": "^5.4|^6.0",
     "symfony/http-kernel": "^5.4|^6.0",
-    "symfony/validator": "^5.4|^6.0"
+    "symfony/twig-bundle": "^5.4|^6.0",
+    "symfony/validator": "^5.4|^6.0",
+    "twig/twig": "^3.4"
   },
   "require-dev": {
     "drenso/phan-extensions": "^3.0",

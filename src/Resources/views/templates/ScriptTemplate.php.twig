@@ -1,0 +1,30 @@
+<?php
+
+namespace {{namespace}};
+
+use DateTimeImmutable;
+use Drenso\DeployerBundle\Enum\RunTypeEnum;
+use Drenso\DeployerBundle\Scripts\DeploymentScript;
+
+class {{scriptName}} extends DeploymentScript
+{
+  public function run(): int
+  {
+    // TODO: Implement run() method.
+  }
+
+  public function timestamp(): DateTimeImmutable
+  {
+    return new DateTimeImmutable('{{timestamp}}');
+  }
+
+  public function getRunType(): RunTypeEnum
+  {
+    return RunTypeEnum::{% if runType == 'pre' %}PRE{% else %}POST{% endif %};
+  }
+
+  public function runOnce(): bool
+  {
+    return {% if runOnce %}true{% else %}false{% endif %};
+  }
+}

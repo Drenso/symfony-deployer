@@ -9,15 +9,16 @@ use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
 
 class DrensoDeployerExtension extends ConfigurableExtension
 {
-  public const BASE_ID         = 'drenso.deployer.';
-  public const EXECUTOR_ID     = self::BASE_ID . 'executor';
-  public const FINDER_ID       = self::BASE_ID . 'finder';
-  public const LOADER_ID       = self::BASE_ID . 'loader';
-  public const SCRIPTS_PATH_ID = self::BASE_ID . 'scripts.path';
-  public const NAMESPACE_ID    = self::BASE_ID . 'scripts.namespace';
-  public const GEN_COMMAND_ID  = self::BASE_ID . 'command.generate';
-  public const PRE_COMMAND_ID  = self::BASE_ID . 'command.pre';
-  public const POST_COMMAND_ID = self::BASE_ID . 'command.post';
+  private const BASE_ID                    = 'drenso.deployer.';
+  final public const SERVICE_EXECUTOR_ID   = self::BASE_ID . 'service.executor';
+  final public const SERVICE_FINDER_ID     = self::BASE_ID . 'service.finder';
+  final public const SERVICE_LOADER_ID     = self::BASE_ID . 'service.loader';
+  final public const PARAM_SCRIPTS_PATH_ID = self::BASE_ID . 'param.scripts_path';
+  final public const PARAM_NAMESPACE_ID    = self::BASE_ID . 'param.namespace';
+  final public const COMMAND_GENERATE_ID   = self::BASE_ID . 'command.generate';
+  final public const COMMAND_PRE_ID        = self::BASE_ID . 'command.pre';
+  final public const COMMAND_POST_ID       = self::BASE_ID . 'command.post';
+  final public const TAG_DEPENDENCY        = self::BASE_ID . 'executer.dependency';
 
   public function loadInternal(array $mergedConfig, ContainerBuilder $container): void
   {
@@ -26,7 +27,7 @@ class DrensoDeployerExtension extends ConfigurableExtension
     $loader->load('services.php');
 
     // Register parameter
-    $container->setParameter(self::SCRIPTS_PATH_ID, $mergedConfig['path']);
-    $container->setParameter(self::NAMESPACE_ID, $mergedConfig['namespace']);
+    $container->setParameter(self::PARAM_SCRIPTS_PATH_ID, $mergedConfig['path']);
+    $container->setParameter(self::PARAM_NAMESPACE_ID, $mergedConfig['namespace']);
   }
 }

@@ -10,34 +10,37 @@ use Drenso\DeployerBundle\Executor\ScriptLoader;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_locator;
 
 return function (ContainerConfigurator $configurator): void {
   $configurator->services()
-      ->set(DrensoDeployerExtension::FINDER_ID, ScriptFinder::class)
-      ->args([
-          param(DrensoDeployerExtension::SCRIPTS_PATH_ID),
-          param(DrensoDeployerExtension::NAMESPACE_ID),
-      ])
+      ->set(DrensoDeployerExtension::SERVICE_FINDER_ID, ScriptFinder::class)
+      ->args([param(DrensoDeployerExtension::PARAM_SCRIPTS_PATH_ID)])
 
-      ->set(DrensoDeployerExtension::LOADER_ID, ScriptLoader::class)
-      ->args([])
+      ->set(DrensoDeployerExtension::SERVICE_LOADER_ID, ScriptLoader::class)
+      ->args([param(DrensoDeployerExtension::PARAM_NAMESPACE_ID)])
 
-      ->set(DrensoDeployerExtension::EXECUTOR_ID, ScriptExecutor::class)
+      ->set(DrensoDeployerExtension::SERVICE_EXECUTOR_ID, ScriptExecutor::class)
       ->args([
-          service(DrensoDeployerExtension::FINDER_ID),
-          service(DrensoDeployerExtension::LOADER_ID),
+          service(DrensoDeployerExtension::SERVICE_FINDER_ID),
+          service(DrensoDeployerExtension::SERVICE_LOADER_ID),
+          tagged_locator(DrensoDeployerExtension::TAG_DEPENDENCY),
           service('doctrine.orm.entity_manager'),
       ])
 
-      ->set(DrensoDeployerExtension::GEN_COMMAND_ID, GenerateScriptCommand::class)
-      ->args([param(DrensoDeployerExtension::SCRIPTS_PATH_ID)])
+      ->set(DrensoDeployerExtension::COMMAND_GENERATE_ID, GenerateScriptCommand::class)
+      ->args([
+          param(DrensoDeployerExtension::PARAM_SCRIPTS_PATH_ID),
+          param(DrensoDeployerExtension::PARAM_NAMESPACE_ID),
+          service('twig'),
+      ])
       ->autoconfigure()
 
-      ->set(DrensoDeployerExtension::PRE_COMMAND_ID, RunPreDeploymentTasksCommand::class)
-      ->args([service(DrensoDeployerExtension::EXECUTOR_ID)])
+      ->set(DrensoDeployerExtension::COMMAND_PRE_ID, RunPreDeploymentTasksCommand::class)
+      ->args([service(DrensoDeployerExtension::SERVICE_EXECUTOR_ID)])
       ->autoconfigure()
 
-      ->set(DrensoDeployerExtension::POST_COMMAND_ID, RunPostDeploymentTasksCommand::class)
-      ->args([service(DrensoDeployerExtension::EXECUTOR_ID)])
+      ->set(DrensoDeployerExtension::COMMAND_POST_ID, RunPostDeploymentTasksCommand::class)
+      ->args([service(DrensoDeployerExtension::SERVICE_EXECUTOR_ID)])
       ->autoconfigure();
 };

@@ -17,10 +17,7 @@ class ScriptFinder
   /** @return string[] */
   public function find(): array
   {
-    $files = $this->getMatches($this->createIterator($this->getRealPath($this->scriptPath)));
-    sort($files);
-
-    return $files;
+    return $this->getMatches($this->createIterator($this->getRealPath($this->scriptPath)));
   }
 
   protected function getRealPath(string $directory): string

@@ -2,37 +2,26 @@
 
 namespace Drenso\DeployerBundle\Scripts;
 
+use DateTimeImmutable;
 use Drenso\DeployerBundle\Enum\RunTypeEnum;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Contracts\Service\ServiceProviderInterface;
 
-abstract class DeploymentScript implements DeploymentScriptInterface
+abstract class DeploymentScript
 {
   final public function __construct(
-      private readonly ContainerInterface $container,
+      private readonly ServiceProviderInterface $services,
       private readonly Application $application,
-      private readonly OutputInterface $output)
+      protected readonly OutputInterface $output)
   {
   }
 
-  /** Default to post run type */
-  public function getRunType(): RunTypeEnum
+  /** Returns a service provider containing the services tagged with the DrensoDeployerExtension::TAG_DEPENDENCY tag */
+  protected function services(): ServiceProviderInterface
   {
-    return RunTypeEnum::POST;
-  }
-
-  /** Default to run script once */
-  public function runOnce(): bool
-  {
-    return true;
-  }
-
-  /** Can be used to get services from the container (which must be public) */
-  protected function getContainer(): ContainerInterface
-  {
-    return $this->container;
+    return $this->services;
   }
 
   /** Shortcut method to run a console command */
@@ -42,4 +31,22 @@ abstract class DeploymentScript implements DeploymentScriptInterface
         ->find($commandName)
         ->run(new ArrayInput($arguments), $this->output);
   }
+
+  /** Defines the run type of the script. */
+  public function getRunType(): RunTypeEnum
+  {
+    return RunTypeEnum::POST;
+  }
+
+  /** Defines whether the script should only be run once, or always */
+  public function runOnce(): bool
+  {
+    return true;
+  }
+
+  /** The actual run implementation */
+  abstract public function run(): int;
+
+  /** Timestamp, used for determining whether it needs to be executed again */
+  abstract public function timestamp(): DateTimeImmutable;
 }
