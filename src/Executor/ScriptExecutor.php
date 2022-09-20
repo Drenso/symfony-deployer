@@ -58,6 +58,12 @@ class ScriptExecutor
       $instances[] = $scriptInstance;
     }
 
+    if (empty($instances)) {
+      $io->info('No deployment scripts registered');
+
+      return Command::SUCCESS;
+    }
+
     // Sort scripts
     usort($instances, fn (DeploymentScript $a, DeploymentScript $b) => $a->timestamp() <=> $b->timestamp());
 
