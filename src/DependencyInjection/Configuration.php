@@ -16,7 +16,7 @@ class Configuration implements ConfigurationInterface
     $rootNode->children()
         ->scalarNode('path')
         ->info('The path where the deployment scripts are to be found')
-        ->defaultValue(param('kernel.project_dir') . DIRECTORY_SEPARATOR . 'deploy' . DIRECTORY_SEPARATOR . 'scripts');
+        ->defaultValue('%kernel.project_dir%' . DIRECTORY_SEPARATOR . 'deploy' . DIRECTORY_SEPARATOR . 'scripts');
 
     $rootNode->children()
         ->scalarNode('namespace')
