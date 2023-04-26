@@ -87,7 +87,8 @@ class ScriptExecutor
       }
 
       if ($instance->runOnce()) {
-        if ($dbScript) {
+        // Reload db instance as it might have become detached
+        if ($dbScript = $this->getDatabaseInstance($instance)) {
           $this->em->remove($dbScript);
           $this->em->flush();
         }
