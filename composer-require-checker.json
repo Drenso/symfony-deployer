@@ -2,10 +2,7 @@
   "symbol-whitelist" : [
     "null", "true", "false",
     "static", "self", "parent",
-    "array", "string", "int", "float", "bool", "iterable", "callable", "void", "object", "mixed",
-    "phpseclib\\Crypt\\RSA",
-    "Symfony\\Contracts\\Cache\\CacheInterface",
-    "Symfony\\Component\\Security\\Http\\Authenticator\\Passport\\PassportInterface"
+    "array", "string", "int", "float", "bool", "iterable", "callable", "void", "object", "mixed"
   ],
   "php-core-extensions" : [
     "Core",
