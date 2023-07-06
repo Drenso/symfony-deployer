@@ -26,6 +26,7 @@ return function (ContainerConfigurator $configurator): void {
           service(DrensoDeployerExtension::SERVICE_LOADER_ID),
           tagged_locator(DrensoDeployerExtension::TAG_DEPENDENCY),
           service('doctrine.orm.entity_manager'),
+          service('messenger.default_bus')->nullOnInvalid(),
       ])
 
       ->set(DrensoDeployerExtension::COMMAND_GENERATE_ID, GenerateScriptCommand::class)

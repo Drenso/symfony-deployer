@@ -3,10 +3,13 @@
 namespace Drenso\DeployerBundle\Scripts;
 
 use DateTimeImmutable;
+use Doctrine\ORM\EntityManagerInterface;
 use Drenso\DeployerBundle\Enum\RunTypeEnum;
+use RuntimeException;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Contracts\Service\ServiceProviderInterface;
 
 abstract class DeploymentScript
@@ -14,6 +17,8 @@ abstract class DeploymentScript
   final public function __construct(
       private readonly ServiceProviderInterface $services,
       private readonly Application $application,
+      private readonly ?MessageBusInterface $messageBus,
+      protected readonly EntityManagerInterface $entityManager,
       protected readonly OutputInterface $output)
   {
   }
@@ -30,6 +35,16 @@ abstract class DeploymentScript
     return $this->application
         ->find($commandName)
         ->run(new ArrayInput($arguments), $this->output);
+  }
+
+  /** Dispatches a Symfony messenger message */
+  protected function dispatchMessage(object $msg): void
+  {
+    if (!$this->messageBus) {
+      throw new RuntimeException('Message bus not available');
+    }
+
+    $this->messageBus->dispatch($msg);
   }
 
   /** Defines the run type of the script. */

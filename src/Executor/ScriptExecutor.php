@@ -15,6 +15,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\ServiceLocator;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 class ScriptExecutor
 {
@@ -24,7 +25,8 @@ class ScriptExecutor
       private readonly ScriptFinder $finder,
       private readonly ScriptLoader $loader,
       private readonly ServiceLocator $serviceLocator,
-      private readonly EntityManagerInterface $em)
+      private readonly EntityManagerInterface $em,
+      private readonly ?MessageBusInterface $messageBus)
   {
   }
 
@@ -41,15 +43,18 @@ class ScriptExecutor
 
     $instances = [];
     foreach ($scripts as $script) {
+      if (!is_a($script, DeploymentScript::class, true)) {
+        continue;
+      }
+
       // Instantiate all scripts
       $scriptInstance = new $script(
           $this->serviceLocator,
           $application,
+          $this->messageBus,
+          $this->em,
           $output
       );
-      if (!$scriptInstance instanceof DeploymentScript) {
-        continue;
-      }
 
       if ($scriptInstance->getRunType() !== $runType) {
         continue;
