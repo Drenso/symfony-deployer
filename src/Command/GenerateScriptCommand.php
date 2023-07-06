@@ -74,9 +74,7 @@ class GenerateScriptCommand extends Command
           validator: $scriptNameValidator);
     }
 
-    $runOnce = $input->getOption('run-once') !== null
-        ? $input->getOption('run-once')
-        : $io->askQuestion(new ConfirmationQuestion('Should the script only be run once?'));
+    $runOnce = $input->getOption('run-once') ?? $io->askQuestion(new ConfirmationQuestion('Should the script only be run once?'));
 
     if ($input->getOption('post')) {
       $runType = 'post';
