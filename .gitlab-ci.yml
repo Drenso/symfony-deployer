@@ -7,27 +7,27 @@ stages:
 include:
   # Prepare
   - project: 'intern/runner-templates'
-    ref: "4.0"
+    ref: "9.6"
     file: '/symfony/install-dependencies.yml'
 
   # CS fix
   - project: 'intern/runner-templates'
-    ref: "5.3"
+    ref: "9.6"
     file: '/php/code-style-fixer.yml'
 
   # Lint
   - project: 'intern/runner-templates'
-    ref: "4.0"
+    ref: "9.6"
     file: '/php/phan.yml'
   - project: 'intern/runner-templates'
-    ref: "4.0"
+    ref: "9.6"
     file: '/php/composer-require-checker.yml'
   - project: 'intern/runner-templates'
-    ref: "4.0"
+    ref: "9.6"
     file: '/php/composer-unused.yml'
   - project: 'intern/runner-templates'
     file: '/deploy/deploy.yml'
-    ref: "4.0"
+    ref: "9.6"
 
 install-dependencies:
   before_script:
@@ -41,23 +41,21 @@ composer-require-checker:
     - master
     - tags
 
-composer-unused:
-  before_script:
-    - curl -JOL https://github.com/composer-unused/composer-unused/releases/download/0.7.7/composer-unused.phar
-  except:
-    - master
-    - tags
-
 php-analysis:
   except:
     - master
     - tags
 
 deploy-staging:
-  only:
-    - master
-    - branches
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule" || $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - if: $CI_COMMIT_REF_NAME == "master" || $CI_COMMIT_BRANCH
+      when: on_success
+    - when: never
 
 deploy-production:
-  only:
-    - tags
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: on_success
+    - when: never
