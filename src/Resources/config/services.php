@@ -33,7 +33,7 @@ return function (ContainerConfigurator $configurator): void {
       ->args([
           param(DrensoDeployerExtension::PARAM_SCRIPTS_PATH_ID),
           param(DrensoDeployerExtension::PARAM_NAMESPACE_ID),
-          service('twig'),
+          service('twig')->nullOnInvalid(),
       ])
       ->autoconfigure()
 

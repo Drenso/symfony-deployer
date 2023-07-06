@@ -27,7 +27,7 @@ class GenerateScriptCommand extends Command
   public function __construct(
       private readonly string $scriptPath,
       private readonly string $namespace,
-      private readonly Environment $twig)
+      private readonly ?Environment $twig)
   {
     parent::__construct();
   }
@@ -43,6 +43,12 @@ class GenerateScriptCommand extends Command
   public function run(InputInterface $input, OutputInterface $output): int
   {
     $io = new SymfonyStyle($input, $output);
+
+    if (!$this->twig) {
+      $io->error('This command requires Twig te be installed.');
+
+      return Command::FAILURE;
+    }
 
     if ($input->getOption('post') && $input->getOption('pre')) {
       $io->error('Both post and pre options supplied');
