@@ -23,7 +23,10 @@ abstract class DeploymentScript
   {
   }
 
-  /** Returns a service provider containing the services tagged with the DrensoDeployerExtension::TAG_DEPENDENCY tag */
+  /**
+   * Returns a service provider containing the services tagged with
+   * the \Drenso\DeployerBundle\DependencyInjection\DrensoDeployerExtension::TAG_DEPENDENCY tag.
+   */
   protected function services(): ServiceProviderInterface
   {
     return $this->services;

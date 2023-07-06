@@ -4,7 +4,6 @@ namespace Drenso\DeployerBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 
 class Configuration implements ConfigurationInterface
 {
