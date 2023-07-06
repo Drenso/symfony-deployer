@@ -36,6 +36,10 @@ install-dependencies:
     - master
     - tags
 
+code-style-fixer:
+  variables:
+    PHP_CS_FIXER_IGNORE_ENV: 'yes' # Required to our current php-cs-fixer with php8.2, needs to be removed
+
 composer-require-checker:
   except:
     - master
