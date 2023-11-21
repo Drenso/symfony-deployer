@@ -35,13 +35,13 @@ return function (ContainerConfigurator $configurator): void {
           param(DrensoDeployerExtension::PARAM_NAMESPACE_ID),
           service('twig')->nullOnInvalid(),
       ])
-      ->autoconfigure()
+      ->tag('console.command')
 
       ->set(DrensoDeployerExtension::COMMAND_PRE_ID, RunPreDeploymentTasksCommand::class)
       ->args([service(DrensoDeployerExtension::SERVICE_EXECUTOR_ID)])
-      ->autoconfigure()
+      ->tag('console.command')
 
       ->set(DrensoDeployerExtension::COMMAND_POST_ID, RunPostDeploymentTasksCommand::class)
       ->args([service(DrensoDeployerExtension::SERVICE_EXECUTOR_ID)])
-      ->autoconfigure();
+      ->tag('console.command');
 };
