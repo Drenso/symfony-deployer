@@ -4,7 +4,6 @@ namespace Drenso\DeployerBundle\Command;
 
 use DateTimeImmutable;
 use DateTimeZone;
-use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,10 +17,6 @@ use Symfony\Component\Validator\Exception\ValidationFailedException;
 use Symfony\Component\Validator\Validation;
 use Twig\Environment;
 
-#[AsCommand(
-    name: 'drenso:deployer:generate',
-    description: 'Generate a new deployment script'
-)]
 class GenerateScriptCommand extends Command
 {
   public function __construct(
@@ -32,12 +27,14 @@ class GenerateScriptCommand extends Command
     parent::__construct();
   }
 
-  protected function configure()
+  protected function configure(): void
   {
-    $this->addArgument('script-name', mode: InputArgument::OPTIONAL);
-    $this->addOption('run-once', mode: InputOption::VALUE_NONE|InputOption::VALUE_NEGATABLE);
-    $this->addOption('post', mode: InputOption::VALUE_NONE);
-    $this->addOption('pre', mode: InputOption::VALUE_NONE);
+    $this
+        ->setDescription('Generate a new deployment script')
+        ->addArgument('script-name', mode: InputArgument::OPTIONAL)
+        ->addOption('run-once', mode: InputOption::VALUE_NONE|InputOption::VALUE_NEGATABLE)
+        ->addOption('post', mode: InputOption::VALUE_NONE)
+        ->addOption('pre', mode: InputOption::VALUE_NONE);
   }
 
   public function run(InputInterface $input, OutputInterface $output): int
