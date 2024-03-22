@@ -14,6 +14,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\Messenger\MessageBusInterface;
 
@@ -25,6 +26,7 @@ class ScriptExecutor
       private readonly ScriptFinder $finder,
       private readonly ScriptLoader $loader,
       private readonly ServiceLocator $serviceLocator,
+      private readonly ParameterBagInterface $parameters,
       private readonly EntityManagerInterface $em,
       private readonly ?MessageBusInterface $messageBus)
   {
@@ -50,6 +52,7 @@ class ScriptExecutor
       // Instantiate all scripts
       $scriptInstance = new $script(
           $this->serviceLocator,
+          $this->parameters,
           $application,
           $this->messageBus,
           $this->em,

@@ -25,6 +25,7 @@ return function (ContainerConfigurator $configurator): void {
           service(DrensoDeployerExtension::SERVICE_FINDER_ID),
           service(DrensoDeployerExtension::SERVICE_LOADER_ID),
           tagged_locator(DrensoDeployerExtension::TAG_DEPENDENCY),
+          service('parameter_bag'),
           service('doctrine.orm.entity_manager'),
           service('messenger.default_bus')->nullOnInvalid(),
       ])
