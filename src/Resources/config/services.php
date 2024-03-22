@@ -8,6 +8,7 @@ use Drenso\DeployerBundle\Executor\ScriptExecutor;
 use Drenso\DeployerBundle\Executor\ScriptFinder;
 use Drenso\DeployerBundle\Executor\ScriptLoader;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+
 use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
 use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_locator;
