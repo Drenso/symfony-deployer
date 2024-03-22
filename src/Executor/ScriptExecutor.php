@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectRepository;
 use Drenso\DeployerBundle\Entity\ExecutedDeploymentScript;
 use Drenso\DeployerBundle\Enum\RunTypeEnum;
+use Drenso\DeployerBundle\Exception\SkipScript;
 use Drenso\DeployerBundle\Scripts\DeploymentScript;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
@@ -17,6 +18,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Throwable;
 
 class ScriptExecutor
 {
@@ -88,7 +90,20 @@ class ScriptExecutor
       }
 
       $io->comment(sprintf('Running %s...', $instance::class));
-      if (($returnCode = $instance->run()) !== Command::SUCCESS) {
+
+      try {
+        $returnCode = $instance->run();
+      } catch (SkipScript $e) {
+        $io->note(sprintf('Skipping script %s: %s', $instance::class, $e->getMessage()));
+
+        continue;
+      } catch (Throwable $e) {
+        $io->error(sprintf('Exception thrown by %s: %s', $instance::class, $e->getMessage()));
+
+        return Command::FAILURE;
+      }
+
+      if ($returnCode !== Command::SUCCESS) {
         $io->error(sprintf('Non-zero (%d) return code received from %s', $returnCode, $instance::class));
 
         return Command::FAILURE;

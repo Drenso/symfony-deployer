@@ -5,6 +5,7 @@ namespace Drenso\DeployerBundle\Scripts;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Drenso\DeployerBundle\Enum\RunTypeEnum;
+use Drenso\DeployerBundle\Exception\SkipScript;
 use RuntimeException;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -55,6 +56,13 @@ abstract class DeploymentScript
     }
 
     $this->messageBus->dispatch($msg);
+  }
+
+  protected function skipIf(bool $condition, string $message = 'Unknown reason'): void
+  {
+    if ($condition) {
+      throw new SkipScript($message);
+    }
   }
 
   /** Defines the run type of the script. */

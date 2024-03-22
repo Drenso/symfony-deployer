@@ -16,3 +16,7 @@ Just add the following commands to your deployment script, at the required posit
 # Command types
 
 This bundle distinguishes between two main command types: `always` and `once`. Both can be configured for either the `pre` or `post` deployment hook.
+
+# Skipping a step
+
+You can use the `skipIf` method in the script to conditionally skip a script. It will not be marked as executed, so it can still be executed if the condition result changed in the future.
