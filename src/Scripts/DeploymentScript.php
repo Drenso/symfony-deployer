@@ -17,12 +17,12 @@ use Symfony\Contracts\Service\ServiceProviderInterface;
 abstract class DeploymentScript
 {
   final public function __construct(
-      private readonly ServiceProviderInterface $services,
-      private readonly ParameterBagInterface $parameters,
-      private readonly Application $application,
-      private readonly ?MessageBusInterface $messageBus,
-      protected readonly EntityManagerInterface $entityManager,
-      protected readonly OutputInterface $output)
+    private readonly ServiceProviderInterface $services,
+    private readonly ParameterBagInterface $parameters,
+    private readonly Application $application,
+    private readonly ?MessageBusInterface $messageBus,
+    protected readonly EntityManagerInterface $entityManager,
+    protected readonly OutputInterface $output)
   {
   }
 
@@ -44,8 +44,8 @@ abstract class DeploymentScript
   protected function executeConsoleCommand(string $commandName, array $arguments = []): int
   {
     return $this->application
-        ->find($commandName)
-        ->run(new ArrayInput($arguments), $this->output);
+      ->find($commandName)
+      ->run(new ArrayInput($arguments), $this->output);
   }
 
   /** Dispatches a Symfony messenger message */

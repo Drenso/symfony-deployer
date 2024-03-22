@@ -20,9 +20,9 @@ use Twig\Environment;
 class GenerateScriptCommand extends Command
 {
   public function __construct(
-      private readonly string $scriptPath,
-      private readonly string $namespace,
-      private readonly ?Environment $twig)
+    private readonly string $scriptPath,
+    private readonly string $namespace,
+    private readonly ?Environment $twig)
   {
     parent::__construct();
   }
@@ -30,11 +30,11 @@ class GenerateScriptCommand extends Command
   protected function configure(): void
   {
     $this
-        ->setDescription('Generate a new deployment script')
-        ->addArgument('script-name', mode: InputArgument::OPTIONAL)
-        ->addOption('run-once', mode: InputOption::VALUE_NONE|InputOption::VALUE_NEGATABLE)
-        ->addOption('post', mode: InputOption::VALUE_NONE)
-        ->addOption('pre', mode: InputOption::VALUE_NONE);
+      ->setDescription('Generate a new deployment script')
+      ->addArgument('script-name', mode: InputArgument::OPTIONAL)
+      ->addOption('run-once', mode: InputOption::VALUE_NONE|InputOption::VALUE_NEGATABLE)
+      ->addOption('post', mode: InputOption::VALUE_NONE)
+      ->addOption('pre', mode: InputOption::VALUE_NONE);
   }
 
   public function run(InputInterface $input, OutputInterface $output): int
@@ -54,8 +54,8 @@ class GenerateScriptCommand extends Command
     }
 
     $scriptNameValidator = Validation::createCallable(new Regex(
-        pattern: '/^[A-Z][a-zA-Z0-9_\x80-\xff]*$/',
-        message: 'The script name must be a valid class name'
+      pattern: '/^[A-Z][a-zA-Z0-9_\x80-\xff]*$/',
+      message: 'The script name must be a valid class name'
     ));
 
     $scriptName = $input->getArgument('script-name');
@@ -67,8 +67,8 @@ class GenerateScriptCommand extends Command
 
     if (!$scriptName) {
       $scriptName = $io->ask(
-          'Provide a script name',
-          validator: $scriptNameValidator);
+        'Provide a script name',
+        validator: $scriptNameValidator);
     }
 
     $runOnce = $input->getOption('run-once') ?? $io->askQuestion(new ConfirmationQuestion('Should the script only be run once?'));
@@ -79,8 +79,8 @@ class GenerateScriptCommand extends Command
       $runType = 'pre';
     } else {
       $runType = $io->askQuestion(new ChoiceQuestion('When should it be run?', [
-          'post' => 'Post deploy',
-          'pre'  => 'Pre deploy',
+        'post' => 'Post deploy',
+        'pre'  => 'Pre deploy',
       ], 'post'));
     }
 
@@ -92,11 +92,11 @@ class GenerateScriptCommand extends Command
     }
 
     $scriptContent = $this->twig->render('@DrensoDeployer/templates/ScriptTemplate.php.twig', [
-        'namespace'  => $this->namespace,
-        'scriptName' => $scriptName,
-        'runOnce'    => $runOnce,
-        'runType'    => $runType,
-        'timestamp'  => (new DateTimeImmutable('now', new DateTimeZone('UTC')))->format('c'),
+      'namespace'  => $this->namespace,
+      'scriptName' => $scriptName,
+      'runOnce'    => $runOnce,
+      'runType'    => $runType,
+      'timestamp'  => (new DateTimeImmutable('now', new DateTimeZone('UTC')))->format('c'),
     ]);
 
     if (!file_exists($this->scriptPath)) {

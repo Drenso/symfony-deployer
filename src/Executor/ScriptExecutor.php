@@ -25,20 +25,20 @@ class ScriptExecutor
   private ?ObjectRepository $repo = null;
 
   public function __construct(
-      private readonly ScriptFinder $finder,
-      private readonly ScriptLoader $loader,
-      private readonly ServiceLocator $serviceLocator,
-      private readonly ParameterBagInterface $parameters,
-      private readonly EntityManagerInterface $em,
-      private readonly ?MessageBusInterface $messageBus)
+    private readonly ScriptFinder $finder,
+    private readonly ScriptLoader $loader,
+    private readonly ServiceLocator $serviceLocator,
+    private readonly ParameterBagInterface $parameters,
+    private readonly EntityManagerInterface $em,
+    private readonly ?MessageBusInterface $messageBus)
   {
   }
 
   public function run(
-      Application $application,
-      InputInterface $input,
-      OutputInterface $output,
-      RunTypeEnum $runType): int
+    Application $application,
+    InputInterface $input,
+    OutputInterface $output,
+    RunTypeEnum $runType): int
   {
     $io = new SymfonyStyle($input, $output);
 
@@ -53,12 +53,12 @@ class ScriptExecutor
 
       // Instantiate all scripts
       $scriptInstance = new $script(
-          $this->serviceLocator,
-          $this->parameters,
-          $application,
-          $this->messageBus,
-          $this->em,
-          $output
+        $this->serviceLocator,
+        $this->parameters,
+        $application,
+        $this->messageBus,
+        $this->em,
+        $output
       );
 
       if ($scriptInstance->getRunType() !== $runType) {
@@ -75,7 +75,7 @@ class ScriptExecutor
     }
 
     // Sort scripts
-    usort($instances, fn (DeploymentScript $a, DeploymentScript $b) => $a->timestamp() <=> $b->timestamp());
+    usort($instances, fn (DeploymentScript $a, DeploymentScript $b): int => $a->timestamp() <=> $b->timestamp());
 
     // Run the scripts
     foreach ($instances as $instance) {

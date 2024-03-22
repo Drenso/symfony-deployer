@@ -26,7 +26,7 @@ class ScriptFinder
 
     if ($dir === false || !is_dir($dir)) {
       throw new InvalidArgumentException(
-          sprintf('Cannot load migrations from "%s" because it is not a valid directory', $directory)
+        sprintf('Cannot load migrations from "%s" because it is not a valid directory', $directory)
       );
     }
 
@@ -36,16 +36,16 @@ class ScriptFinder
   private function createIterator(string $dir): RegexIterator
   {
     return new RegexIterator(
-        new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS|FilesystemIterator::FOLLOW_SYMLINKS),
-            RecursiveIteratorIterator::LEAVES_ONLY
-        ),
-        sprintf(
-            '#^.+\\%s[^\\%s]+\\.php$#i',
-            DIRECTORY_SEPARATOR,
-            DIRECTORY_SEPARATOR
-        ),
-        RegexIterator::GET_MATCH
+      new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS|FilesystemIterator::FOLLOW_SYMLINKS),
+        RecursiveIteratorIterator::LEAVES_ONLY
+      ),
+      sprintf(
+        '#^.+\\%s[^\\%s]+\\.php$#i',
+        DIRECTORY_SEPARATOR,
+        DIRECTORY_SEPARATOR
+      ),
+      RegexIterator::GET_MATCH
     );
   }
 

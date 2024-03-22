@@ -14,8 +14,8 @@ class DrensoDeployerBundle extends Bundle
 
     // Register entity with the container
     $container->addCompilerPass(DoctrineOrmMappingsPass::createAttributeMappingDriver(
-        ['DrensoDeployerBundle\Entity'],
-        [realpath(__DIR__ . '/Entity')],
+      ['DrensoDeployerBundle\Entity'],
+      [realpath(__DIR__ . '/Entity')],
     ));
   }
 }

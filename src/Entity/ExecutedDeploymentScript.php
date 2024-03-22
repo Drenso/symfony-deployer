@@ -15,11 +15,11 @@ use InvalidArgumentException;
 class ExecutedDeploymentScript
 {
   public function __construct(
-      #[Id]
-      #[Column(unique: true)]
-      public readonly string $script,
-      #[Column]
-      public readonly DateTimeImmutable $executedAt)
+    #[Id]
+    #[Column(unique: true)]
+    public readonly string $script,
+    #[Column]
+    public readonly DateTimeImmutable $executedAt)
   {
   }
 
@@ -27,9 +27,9 @@ class ExecutedDeploymentScript
   {
     if ($instance::class !== $this->script) {
       throw new InvalidArgumentException(sprintf(
-          'Supplied instance `%s` does not match with record for `%s`',
-          $instance::class,
-          $this->script,
+        'Supplied instance `%s` does not match with record for `%s`',
+        $instance::class,
+        $this->script,
       ));
     }
 
