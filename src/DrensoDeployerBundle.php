@@ -16,6 +16,7 @@ class DrensoDeployerBundle extends Bundle
     $container->addCompilerPass(DoctrineOrmMappingsPass::createAttributeMappingDriver(
       ['DrensoDeployerBundle\Entity'],
       [realpath(__DIR__ . '/Entity')],
+      reportFieldsWhereDeclared: true,
     ));
   }
 }
