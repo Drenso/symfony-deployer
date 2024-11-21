@@ -33,6 +33,10 @@ class DrensoDeployerExtension extends ConfigurableExtension
     $container->setParameter(self::PARAM_SCRIPTS_PATH_ID, $mergedConfig['path']);
     $container->setParameter(self::PARAM_NAMESPACE_ID, $mergedConfig['namespace']);
 
+    if (!$mergedConfig['generator_enabled']) {
+      $container->removeDefinition(self::COMMAND_GENERATE_ID);
+    }
+
     $updatePagesConfig = $mergedConfig['update_pages'];
     if ($updatePagesConfig['enabled']) {
       $container->setParameter(self::PARAM_UPDATE_PAGES, $updatePagesConfig['configurations']);

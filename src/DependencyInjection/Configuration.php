@@ -23,6 +23,11 @@ class Configuration implements ConfigurationInterface
         ->defaultValue('DrensoDeployer');
 
     $rootNode->children()
+        ->scalarNode('generator_enabled')
+        ->info('Whether the generator command is available')
+        ->defaultTrue();
+
+    $rootNode->children()
       ->arrayNode('update_pages')
         ->info('A generator for static update pages')
         ->canBeEnabled()
