@@ -4,6 +4,7 @@ namespace Drenso\DeployerBundle\Command;
 
 use Drenso\DeployerBundle\Enum\RunTypeEnum;
 use Drenso\DeployerBundle\Executor\ScriptExecutor;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -22,6 +23,11 @@ class RunPreDeploymentTasksCommand extends Command
 
   public function run(InputInterface $input, OutputInterface $output): int
   {
-    return $this->executor->run($this->getApplication(), $input, $output, RunTypeEnum::PRE);
+    return $this->executor->run(
+      $this->getApplication() ?? throw new RuntimeException('Application cannot be null'),
+      $input,
+      $output,
+      RunTypeEnum::PRE
+    );
   }
 }

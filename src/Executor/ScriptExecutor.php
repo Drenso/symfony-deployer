@@ -22,8 +22,10 @@ use Throwable;
 
 class ScriptExecutor
 {
+  /** @var ObjectRepository<ExecutedDeploymentScript>|null */
   private ?ObjectRepository $repo = null;
 
+  /** @phpstan-ignore missingType.generics */
   public function __construct(
     private readonly ScriptFinder $finder,
     private readonly ScriptLoader $loader,

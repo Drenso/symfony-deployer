@@ -17,6 +17,8 @@ class ScriptLoader
   }
 
   /**
+   * @param string[] $scriptFiles
+   *
    * @throws ReflectionException
    *
    * @return class-string[]
@@ -72,6 +74,7 @@ class ScriptLoader
     return $classes;
   }
 
+  /** @param ReflectionClass<object> $reflectionClass */
   private function isReflectionClassInNamespace(ReflectionClass $reflectionClass): bool
   {
     return strncmp($reflectionClass->getName(), $this->namespace . '\\', strlen($this->namespace) + 1) === 0;

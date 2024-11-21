@@ -22,13 +22,13 @@ include:
   # Lint
   - project: 'intern/runner-templates'
     ref: "15.2"
-    file: '/php/phan.yml'
-  - project: 'intern/runner-templates'
-    ref: "15.2"
     file: '/php/composer-require-checker.yml'
   - project: 'intern/runner-templates'
     ref: "15.2"
     file: '/php/composer-unused.yml'
+  - project: 'intern/runner-templates'
+    ref: "15.2"
+    file: '/php/phpstan.yml'
   - project: 'intern/runner-templates'
     file: '/deploy/deploy.yml'
     ref: "15.2"

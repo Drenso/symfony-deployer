@@ -23,6 +23,7 @@ class DrensoDeployerExtension extends ConfigurableExtension
   final public const COMMAND_GENERATE_PAGES_ID = self::BASE_ID . 'command.generate_pages';
   final public const TAG_DEPENDENCY            = self::BASE_ID . 'executer.dependency';
 
+  /** @phpstan-ignore missingType.iterableValue */
   public function loadInternal(array $mergedConfig, ContainerBuilder $container): void
   {
     // Load configured services

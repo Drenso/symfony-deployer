@@ -11,6 +11,7 @@ use Twig\Environment;
 
 class GenerateUpdatePagesCommand extends Command
 {
+  /** @phpstan-ignore missingType.iterableValue */
   public function __construct(
     private readonly ?Environment $twig,
     private readonly string $projectDir,

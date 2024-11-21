@@ -13,3 +13,6 @@ composer.phar
 
 # PHP-CS-Fixer cache
 .php-cs-fixer.cache
+
+# PHPStan cache
+/var/cache/phpstan

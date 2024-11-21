@@ -16,6 +16,7 @@ use Symfony\Contracts\Service\ServiceProviderInterface;
 
 abstract class DeploymentScript
 {
+  /** @phpstan-ignore missingType.generics */
   final public function __construct(
     private readonly ServiceProviderInterface $services,
     private readonly ParameterBagInterface $parameters,
@@ -29,6 +30,8 @@ abstract class DeploymentScript
   /**
    * Returns a service provider containing the services tagged with
    * the \Drenso\DeployerBundle\DependencyInjection\DrensoDeployerExtension::TAG_DEPENDENCY tag.
+   *
+   * @phpstan-ignore missingType.generics
    */
   protected function services(): ServiceProviderInterface
   {
@@ -40,7 +43,11 @@ abstract class DeploymentScript
     return $this->parameters->get($name);
   }
 
-  /** Shortcut method to run a console command */
+  /**
+   * Shortcut method to run a console command.
+   *
+   * @phpstan-ignore missingType.iterableValue
+   */
   protected function executeConsoleCommand(string $commandName, array $arguments = []): int
   {
     return $this->application

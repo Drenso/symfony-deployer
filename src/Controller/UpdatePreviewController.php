@@ -9,6 +9,7 @@ use Twig\Environment;
 
 class UpdatePreviewController
 {
+  /** @phpstan-ignore missingType.iterableValue */
   public function __construct(
     private readonly ?Environment $twig,
     private readonly array $configurations,
