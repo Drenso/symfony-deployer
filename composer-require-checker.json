@@ -2,7 +2,8 @@
   "symbol-whitelist" : [
     "null", "true", "false",
     "static", "self", "parent",
-    "array", "string", "int", "float", "bool", "iterable", "callable", "void", "object", "mixed"
+    "array", "string", "int", "float", "bool", "iterable", "callable", "void", "object", "mixed",
+    "Symfony\\Component\\HttpFoundation\\Response"
   ],
   "php-core-extensions" : [
     "Core",

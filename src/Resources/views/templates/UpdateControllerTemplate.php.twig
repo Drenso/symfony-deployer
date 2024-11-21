@@ -1,0 +1,6 @@
+<?php
+
+$content = file_get_contents('../{{ content_folder }}');
+http_response_code({{ response_code }});
+echo $content;
+exit;

@@ -5968,11 +5968,7 @@
      * @param {Event=} e
      */
     showSpeedToggle(e) {
-      const isFocusEvent = e && e.type === 'focus';
-      if (Runner.audioCues || isFocusEvent) {
-        this.slowSpeedCheckboxLabel.classList.toggle(
-            HIDDEN_CLASS, isFocusEvent ? false : !this.crashed);
-      }
+      // Disabled
     },
 
     /**
@@ -6784,14 +6780,8 @@
     }
   }
 
-  // Subframes use a different layout but the same html file.  This is to make it
-  // easier to support platforms that load the error page via different
-  // mechanisms (Currently just iOS).
+  // Disabled subframe detection
   let isSubFrame = false;
-  if (window.top.location !== window.location) {
-    document.documentElement.setAttribute('subframe', '');
-    isSubFrame = true;
-  }
 
   // Re-renders the error page using |strings| as the dictionary of values.
   // Used by NetErrorTabHelper to update DNS error pages with probe results.

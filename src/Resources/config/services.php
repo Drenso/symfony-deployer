@@ -1,8 +1,10 @@
 <?php
 
 use Drenso\DeployerBundle\Command\GenerateScriptCommand;
+use Drenso\DeployerBundle\Command\GenerateUpdatePagesCommand;
 use Drenso\DeployerBundle\Command\RunPostDeploymentTasksCommand;
 use Drenso\DeployerBundle\Command\RunPreDeploymentTasksCommand;
+use Drenso\DeployerBundle\Controller\UpdatePreviewController;
 use Drenso\DeployerBundle\DependencyInjection\DrensoDeployerExtension;
 use Drenso\DeployerBundle\Executor\ScriptExecutor;
 use Drenso\DeployerBundle\Executor\ScriptFinder;
@@ -45,5 +47,20 @@ return function (ContainerConfigurator $configurator): void {
 
     ->set(DrensoDeployerExtension::COMMAND_POST_ID, RunPostDeploymentTasksCommand::class)
     ->args([service(DrensoDeployerExtension::SERVICE_EXECUTOR_ID)])
-    ->tag('console.command', ['command' => 'drenso:deployer:post']);
+    ->tag('console.command', ['command' => 'drenso:deployer:post'])
+
+    ->set(UpdatePreviewController::class)
+    ->args([
+      service('twig')->nullOnInvalid(),
+      param(DrensoDeployerExtension::PARAM_UPDATE_PAGES),
+    ])
+    ->tag('controller.service_arguments')
+
+    ->set(DrensoDeployerExtension::COMMAND_GENERATE_PAGES_ID, GenerateUpdatePagesCommand::class)
+    ->args([
+      service('twig')->nullOnInvalid(),
+      param('kernel.project_dir'),
+      param(DrensoDeployerExtension::PARAM_UPDATE_PAGES),
+    ])
+    ->tag('console.command', ['command' => 'drenso:deployer:generate-update-pages']);
 };
