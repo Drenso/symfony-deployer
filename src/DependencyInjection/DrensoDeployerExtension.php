@@ -10,18 +10,19 @@ use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
 
 class DrensoDeployerExtension extends ConfigurableExtension
 {
-  private const BASE_ID                        = 'drenso.deployer.';
-  final public const SERVICE_EXECUTOR_ID       = self::BASE_ID . 'service.executor';
-  final public const SERVICE_FINDER_ID         = self::BASE_ID . 'service.finder';
-  final public const SERVICE_LOADER_ID         = self::BASE_ID . 'service.loader';
-  final public const PARAM_SCRIPTS_PATH_ID     = self::BASE_ID . 'param.scripts_path';
-  final public const PARAM_NAMESPACE_ID        = self::BASE_ID . 'param.namespace';
-  final public const PARAM_UPDATE_PAGES        = self::BASE_ID . 'param.update_pages';
-  final public const COMMAND_GENERATE_ID       = self::BASE_ID . 'command.generate';
-  final public const COMMAND_PRE_ID            = self::BASE_ID . 'command.pre';
-  final public const COMMAND_POST_ID           = self::BASE_ID . 'command.post';
-  final public const COMMAND_GENERATE_PAGES_ID = self::BASE_ID . 'command.generate_pages';
-  final public const TAG_DEPENDENCY            = self::BASE_ID . 'executer.dependency';
+  private const BASE_ID                                 = 'drenso.deployer.';
+  final public const SERVICE_EXECUTOR_ID                = self::BASE_ID . 'service.executor';
+  final public const SERVICE_FINDER_ID                  = self::BASE_ID . 'service.finder';
+  final public const SERVICE_LOADER_ID                  = self::BASE_ID . 'service.loader';
+  final public const SERVICE_PAGES_GENERATOR_FACTORY_ID = self::BASE_ID . 'service.pages_generator_factory';
+  final public const PARAM_SCRIPTS_PATH_ID              = self::BASE_ID . 'param.scripts_path';
+  final public const PARAM_NAMESPACE_ID                 = self::BASE_ID . 'param.namespace';
+  final public const PARAM_UPDATE_PAGES                 = self::BASE_ID . 'param.update_pages';
+  final public const COMMAND_GENERATE_ID                = self::BASE_ID . 'command.generate';
+  final public const COMMAND_PRE_ID                     = self::BASE_ID . 'command.pre';
+  final public const COMMAND_POST_ID                    = self::BASE_ID . 'command.post';
+  final public const COMMAND_GENERATE_PAGES_ID          = self::BASE_ID . 'command.generate_pages';
+  final public const TAG_DEPENDENCY                     = self::BASE_ID . 'executer.dependency';
 
   /** @phpstan-ignore missingType.iterableValue */
   public function loadInternal(array $mergedConfig, ContainerBuilder $container): void
@@ -48,6 +49,7 @@ class DrensoDeployerExtension extends ConfigurableExtension
     } else {
       $container->removeDefinition(self::COMMAND_GENERATE_PAGES_ID);
       $container->removeDefinition(UpdatePreviewController::class);
+      $container->removeDefinition(self::SERVICE_PAGES_GENERATOR_FACTORY_ID);
     }
   }
 }

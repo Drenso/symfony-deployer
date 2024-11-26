@@ -2,18 +2,18 @@
 
 namespace Drenso\DeployerBundle\Command;
 
+use Drenso\DeployerBundle\Generator\UpdatePageGeneratorFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Twig\Environment;
 
 class GenerateUpdatePagesCommand extends Command
 {
   /** @phpstan-ignore missingType.iterableValue */
   public function __construct(
-    private readonly ?Environment $twig,
+    private readonly UpdatePageGeneratorFactory $generatorFactory,
     private readonly string $projectDir,
     private readonly array $configurations,
   ) {
@@ -32,12 +32,6 @@ class GenerateUpdatePagesCommand extends Command
   {
     $io = new SymfonyStyle($input, $output);
 
-    if (!$this->twig) {
-      $io->error('This command requires Twig te be installed.');
-
-      return Command::FAILURE;
-    }
-
     $controllerPath = $this->resolveFolder($input->getArgument('controller-folder'));
     $contentFolder  = $input->getArgument('content-folder');
     $contentPath    = $this->resolveFolder($contentFolder);
@@ -46,20 +40,10 @@ class GenerateUpdatePagesCommand extends Command
       $contentName                     = $name . '.html';
       $configuration['content_folder'] = $contentFolder . DIRECTORY_SEPARATOR . $contentName;
 
-      if ($svg = $configuration['svg']) {
-        if (file_exists($svg) && is_readable($svg)) {
-          $configuration['svg'] = file_get_contents($svg);
-        }
-      }
+      $generator = $this->generatorFactory->getGenerator($configuration);
 
-      file_put_contents(
-        $controllerPath . DIRECTORY_SEPARATOR . $name . '.php',
-        $this->twig->render('@DrensoDeployer/templates/UpdateControllerTemplate.php.twig', $configuration)
-      );
-      file_put_contents(
-        $contentPath . DIRECTORY_SEPARATOR . $contentName,
-        $this->twig->render('@DrensoDeployer/templates/UpdatePageTemplate.html.twig', $configuration)
-      );
+      file_put_contents($controllerPath . DIRECTORY_SEPARATOR . $name . '.php', $generator->generateController());
+      file_put_contents($contentPath . DIRECTORY_SEPARATOR . $contentName, $generator->generateHtml());
     }
 
     $io->success('Generated new update pages');

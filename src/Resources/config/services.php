@@ -9,6 +9,7 @@ use Drenso\DeployerBundle\DependencyInjection\DrensoDeployerExtension;
 use Drenso\DeployerBundle\Executor\ScriptExecutor;
 use Drenso\DeployerBundle\Executor\ScriptFinder;
 use Drenso\DeployerBundle\Executor\ScriptLoader;
+use Drenso\DeployerBundle\Generator\UpdatePageGeneratorFactory;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
@@ -49,16 +50,22 @@ return function (ContainerConfigurator $configurator): void {
     ->args([service(DrensoDeployerExtension::SERVICE_EXECUTOR_ID)])
     ->tag('console.command', ['command' => 'drenso:deployer:post'])
 
-    ->set(UpdatePreviewController::class)
+    ->set(DrensoDeployerExtension::SERVICE_PAGES_GENERATOR_FACTORY_ID, UpdatePageGeneratorFactory::class)
     ->args([
       service('twig')->nullOnInvalid(),
+      service('assets.packages')->nullOnInvalid(),
+    ])
+
+    ->set(UpdatePreviewController::class)
+    ->args([
+      service(DrensoDeployerExtension::SERVICE_PAGES_GENERATOR_FACTORY_ID),
       param(DrensoDeployerExtension::PARAM_UPDATE_PAGES),
     ])
     ->tag('controller.service_arguments')
 
     ->set(DrensoDeployerExtension::COMMAND_GENERATE_PAGES_ID, GenerateUpdatePagesCommand::class)
     ->args([
-      service('twig')->nullOnInvalid(),
+      service(DrensoDeployerExtension::SERVICE_PAGES_GENERATOR_FACTORY_ID),
       param('kernel.project_dir'),
       param(DrensoDeployerExtension::PARAM_UPDATE_PAGES),
     ])

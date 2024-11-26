@@ -3,7 +3,8 @@
     "null", "true", "false",
     "static", "self", "parent",
     "array", "string", "int", "float", "bool", "iterable", "callable", "void", "object", "mixed",
-    "Symfony\\Component\\HttpFoundation\\Response"
+    "Symfony\\Component\\HttpFoundation\\Response",
+    "Twig\\Environment"
   ],
   "php-core-extensions" : [
     "Core",
