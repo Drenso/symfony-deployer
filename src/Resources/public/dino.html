@@ -5711,6 +5711,10 @@
 
       window.addEventListener(
           Runner.events.FOCUS, this.onVisibilityChange.bind(this));
+
+      if (window.parent) {
+        window.parent.postMessage('game_started', '*');
+      }
     },
 
     clearCanvas() {

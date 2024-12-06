@@ -50,6 +50,7 @@ class Configuration implements ConfigurationInterface
               ->scalarNode('update_text')
                 ->defaultValue('Unfortunately, we are updating the website right now. However, this shouldn\'t take very long, so please try again in a few minutes!')
               ->end()
+              ->integerNode('reload_seconds')->info('Whether to automatically reload the page after x seconds. Can be disabled by setting to 0.')->defaultValue(60)->end()
               ->booleanNode('enable_game')->info('Whether to enable the Chromium dino mini game on the update page')->defaultTrue()->end()
               ->scalarNode('game_header')->defaultValue('Need to pass some time?')->end();
 

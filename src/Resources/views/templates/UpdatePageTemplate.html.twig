@@ -33,6 +33,22 @@
       }
     {% endif %}
   </style>
+  {% if reload_seconds != 0 %}
+    <script type="text/javascript">
+      {# Reload after the configured amount of seconds, unless the game has been started #}
+      document.addEventListener('DOMContentLoaded', function() {
+        const reloadTimeout = setTimeout(function(){
+          window.location.reload();
+        }, {{ reload_seconds }} * 1000);
+
+        window.addEventListener('message', function (e) {
+          if (e.data === 'game_started') {
+            clearTimeout(reloadTimeout);
+          }
+        });
+      });
+    </script>
+  {% endif %}
 </head>
 <body>
 <div class="container-fluid">
