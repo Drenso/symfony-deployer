@@ -7,6 +7,7 @@ use InvalidArgumentException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RegexIterator;
+use Traversable;
 
 class ScriptFinder
 {
@@ -33,8 +34,10 @@ class ScriptFinder
     return $dir;
   }
 
+  /** @return RegexIterator<string, string, Traversable<string>> */
   private function createIterator(string $dir): RegexIterator
   {
+    /* @phpstan-ignore return.type */
     return new RegexIterator(
       new RecursiveIteratorIterator(
         new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS|FilesystemIterator::FOLLOW_SYMLINKS),
@@ -49,7 +52,11 @@ class ScriptFinder
     );
   }
 
-  /** @return string[] */
+  /**
+   * @param RegexIterator<string, string, Traversable<string>> $iteratorFilesMatch
+   *
+   * @return string[]
+   */
   private function getMatches(RegexIterator $iteratorFilesMatch): array
   {
     $files = [];
