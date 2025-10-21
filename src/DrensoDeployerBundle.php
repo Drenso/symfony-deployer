@@ -17,7 +17,6 @@ class DrensoDeployerBundle extends Bundle
     $container->addCompilerPass(DoctrineOrmMappingsPass::createAttributeMappingDriver(
       ['DrensoDeployerBundle\Entity'],
       [realpath(__DIR__ . '/Entity') ?: throw new RuntimeException('Could not determine entity path')],
-      reportFieldsWhereDeclared: true,
     ));
   }
 }
