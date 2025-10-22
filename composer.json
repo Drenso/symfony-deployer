@@ -1,7 +1,7 @@
 {
   "name": "drenso/symfony-deployer-bundle",
   "description": "Deploy scripting bundle for Symfony",
-  "version": "0.5.0",
+  "version": "1.0.0",
   "keywords": [
     "symfony",
     "deploy",
