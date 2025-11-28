@@ -7,26 +7,33 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
+  /**
+   * @return TreeBuilder<'array'>
+   */
   public function getConfigTreeBuilder(): TreeBuilder
   {
     $treeBuilder = new TreeBuilder('drenso_deployer');
 
     $rootNode = $treeBuilder->getRootNode();
+    /** @phpstan-ignore class.notFound */
     $rootNode->children()
         ->scalarNode('path')
         ->info('The path where the deployment scripts are to be found')
         ->defaultValue('%kernel.project_dir%' . DIRECTORY_SEPARATOR . 'deploy' . DIRECTORY_SEPARATOR . 'scripts');
 
+    /** @phpstan-ignore class.notFound */
     $rootNode->children()
         ->scalarNode('namespace')
         ->info('The namespace of the deployment scripts')
         ->defaultValue('DrensoDeployer');
 
+    /** @phpstan-ignore class.notFound */
     $rootNode->children()
         ->scalarNode('generator_enabled')
         ->info('Whether the generator command is available')
         ->defaultTrue();
 
+    /** @phpstan-ignore class.notFound */
     $rootNode->children()
       ->arrayNode('update_pages')
         ->info('A generator for static update pages')
