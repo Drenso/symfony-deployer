@@ -17,6 +17,10 @@ class UpdatePreviewController
 
   public function preview(?string $name): Response
   {
+    if (!$name) {
+      throw new InvalidArgumentException('Missing page configuration name');
+    }
+
     $configuration = $this->configurations[$name] ?? throw new InvalidArgumentException(
       sprintf('Update page configuration `%s` not found, did you configure it?', $name)
     );
