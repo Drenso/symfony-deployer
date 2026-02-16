@@ -3,8 +3,8 @@
 namespace Drenso\DeployerBundle\Controller;
 
 use Drenso\DeployerBundle\Generator\UpdatePageGeneratorFactory;
-use InvalidArgumentException;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UpdatePreviewController
 {
@@ -18,10 +18,10 @@ class UpdatePreviewController
   public function preview(?string $name): Response
   {
     if (!$name) {
-      throw new InvalidArgumentException('Missing page configuration name');
+      throw new NotFoundHttpException('Missing page configuration name');
     }
 
-    $configuration = $this->configurations[$name] ?? throw new InvalidArgumentException(
+    $configuration = $this->configurations[$name] ?? throw new NotFoundHttpException(
       sprintf('Update page configuration `%s` not found, did you configure it?', $name)
     );
 
