@@ -34,7 +34,7 @@ class ScriptFinder
     return $dir;
   }
 
-  /** @return RegexIterator<string, string, Traversable<string>> */
+  /** @return RegexIterator<string, string, Traversable<string, string>> */
   private function createIterator(string $dir): RegexIterator
   {
     /* @phpstan-ignore return.type */
@@ -53,7 +53,7 @@ class ScriptFinder
   }
 
   /**
-   * @param RegexIterator<string, string, Traversable<string>> $iteratorFilesMatch
+   * @param RegexIterator<string, string, Traversable<string, string>> $iteratorFilesMatch
    *
    * @return string[]
    */
